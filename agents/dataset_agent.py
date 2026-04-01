@@ -6,6 +6,16 @@ from pystac_client import Client
 import planetary_computer as pc
 from core.vector_utils import load_aoi_geojson
 from config import STAC_ENDPOINT
+from core.stac_cache import hash_query, cache_exists, load_cache, save_cache
+
+
+
+def fetch_sentinel_series(task):
+    
+
+    
+
+    return signed_items
 
 
 def fetch_sentinel_series(task):
@@ -15,6 +25,10 @@ def fetch_sentinel_series(task):
     - Date range
     - Cloud cover filter
     """
+    q_hash = hash_query(task)
+
+    if cache_exists(q_hash):
+        return load_cache(q_hash)
 
     aoi_geojson = load_aoi_geojson(task["aoi"])
     start_date = task["date_range"]["start"]
@@ -36,4 +50,5 @@ def fetch_sentinel_series(task):
     # Sign for direct blob access (Planetary Computer)
     signed_items = [pc.sign(item).to_dict() for item in items]
 
+    save_cache(q_hash, signed_items)
     return signed_items
