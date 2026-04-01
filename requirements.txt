@@ -1,0 +1,14 @@
+streamlit
+rasterio
+numpy
+geopandas
+matplotlib
+pystac-client
+planetary-computer
+chromadb
+langchain
+openai
+xarray
+scipy
+shapely
+sentence-transformers
